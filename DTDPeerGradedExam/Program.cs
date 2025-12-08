@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.Threading.Tasks;
 using utilities;
+using services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +19,16 @@ builder.Services.AddHttpLogging(options =>
         options.LoggingFields = HttpLoggingFields.All;
     });
 
+builder.Services.AddSingleton<DataSeeder>();
 builder.Services.AddSingleton<UserServices>();
+builder.Services.AddSingleton<ProductServices>();
+builder.Services.AddSingleton<OrderServices>();
+builder.Services.AddSingleton<OrderDetailServices>();
+
 
 var app = builder.Build();
+
+await app.Services.GetRequiredService<DataSeeder>().DataSeeders();
 
 if (app.Environment.IsDevelopment())
 {

@@ -52,7 +52,7 @@ namespace utilities
                     Password = "StoreAdminNo1",
                     Role = "Administrator",
                     Email = "admin@gmail.com",
-                    PhoneNumber = 1234567890,
+                    PhoneNumber = "1234567890",
                     Address = "885 Long Beach, California"
                 },
 
@@ -63,7 +63,7 @@ namespace utilities
                     Password = "BrasilNumeroUno1",
                     Role = "Staff",
                     Email = "staff123@gmail.com",
-                    PhoneNumber = 1234567890,
+                    PhoneNumber = "1234567890",
                     Address = "500 Arroyo, New Mexico"
                 },
 
@@ -74,7 +74,7 @@ namespace utilities
                     Password = "user123",
                     Role = "User",
                     Email = "user@gmail.com",
-                    PhoneNumber = 1234567890,
+                    PhoneNumber = "1234567890",
                     Address = "998 Silent Hill, Texas"
                 }
             };
