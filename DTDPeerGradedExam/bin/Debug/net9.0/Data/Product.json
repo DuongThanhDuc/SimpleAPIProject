@@ -1,0 +1,16 @@
+[
+  {
+    "ID": 1,
+    "Name": "Laptop",
+    "Description": "High performance laptop",
+    "Price": 1200.00,
+    "StockQuantity": 50
+  },
+  {
+    "ID": 2,
+    "Name": "Smartphone",
+    "Description": "Latest model smartphone",
+    "Price": 800.00,
+    "StockQuantity": 100
+  }
+]

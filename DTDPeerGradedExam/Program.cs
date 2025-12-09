@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using utilities;
 using services;
@@ -24,6 +27,29 @@ builder.Services.AddSingleton<UserServices>();
 builder.Services.AddSingleton<ProductServices>();
 builder.Services.AddSingleton<OrderServices>();
 builder.Services.AddSingleton<OrderDetailServices>();
+
+
+var key = "ThisIsASecretKeyForJWTTokenGeneration";
+builder.Services.AddSingleton<TokenGenerator>(new TokenGenerator(key));
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+    };
+});
+
+builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
@@ -54,6 +80,9 @@ app.Use(async (context, next) =>
         );
     }
 });
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
