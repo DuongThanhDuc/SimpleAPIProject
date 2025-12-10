@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DTDPeerGradedExam")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7eb83182da9ff3be4f75afc7477f10ed51b40072")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba911fd7433f6a5023a8f873867443054b0848ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("DTDPeerGradedExam")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DTDPeerGradedExam")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

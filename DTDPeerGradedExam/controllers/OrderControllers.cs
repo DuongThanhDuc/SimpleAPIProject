@@ -38,11 +38,6 @@ namespace controllers
         [HttpPost]
         public ActionResult AddOrder([FromBody] Order order)
         {
-            if (order == null)
-            {
-                return BadRequest("Order cannot be null.");
-            }
-
             if(order.ID <= 0)
             {
                 return BadRequest("Order ID cannot be below 0.");

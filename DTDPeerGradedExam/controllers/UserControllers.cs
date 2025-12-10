@@ -30,7 +30,7 @@ namespace controllers
             var user = _userServices.GetUserByID(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User doesn't exist");
             }
             return Ok(user);
         }
@@ -39,6 +39,32 @@ namespace controllers
         [HttpPost]
         public ActionResult AddUser([FromBody] User user)
         {
+            if(user.ID <= 0)
+            {
+                return BadRequest("ID must be greater than zero");
+            }
+
+            if(user.Username == null || user.Password == null)
+            {
+                return BadRequest("Username and/or Password are required");
+            }
+
+            if(user.Role == null)
+            {
+                return BadRequest("Role is required");
+            }
+
+            if (user.Email == null)
+            {
+                return BadRequest("Email is required");
+            }
+
+            if(user.PhoneNumber == null)
+            {
+                return BadRequest("Phone Number is required");
+            }
+
+
             _userServices.AddUsers(user);
             return CreatedAtAction(nameof(GetUserByID), new { id = user.ID }, user);
         }
@@ -50,7 +76,27 @@ namespace controllers
             var existingUser = _userServices.GetUserByID(id);
             if (existingUser == null)
             {
-                return NotFound();
+                return NotFound("User doesn't exist.");
+            }
+
+              if(user.Username == null || user.Password == null)
+            {
+                return BadRequest("Username and/or Password are required");
+            }
+
+            if(user.Role == null)
+            {
+                return BadRequest("Role is required");
+            }
+
+            if (user.Email == null)
+            {
+                return BadRequest("Email is required");
+            }
+
+            if(user.PhoneNumber == null)
+            {
+                return BadRequest("Phone Number is required");
             }
 
             user.ID = id; 
@@ -65,7 +111,7 @@ namespace controllers
             var existingUser = _userServices.GetUserByID(id);
             if (existingUser == null)
             {
-                return NotFound();
+                return NotFound("User doesn't exist.");
             }
 
             _userServices.DeleteUsers(id);

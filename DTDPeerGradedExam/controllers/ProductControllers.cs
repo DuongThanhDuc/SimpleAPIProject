@@ -30,7 +30,7 @@ namespace controllers
             var product = _productServices.GetProductByID(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound("Product doesn't exist.");
             }
             return Ok(product);
         }
@@ -39,6 +39,37 @@ namespace controllers
         [HttpPost]
         public ActionResult AddProduct([FromBody] Product product)
         {
+            if (product == null)
+            {
+                return NotFound("Product doesn't exist.");
+            }
+
+            if(product.ID <= 0)
+            {
+                return BadRequest("ID must be greater than zero");
+            }
+
+            if(product.Name == null || product.Name == "")
+            {
+                return BadRequest("Product Name is required");
+            }
+
+            if(product.Description == null || product.Description == "")
+            {
+                return BadRequest("Product Description is required");
+            }
+
+            if(product.Price <= 0)
+            {
+                return BadRequest("Product Price must be greater than zero");
+            }
+
+            if(product.StockQuantity < 0)
+            {
+                return BadRequest("Product Stock Quantity cannot be negative");
+            }
+
+
             _productServices.AddProduct(product);
             return CreatedAtAction(nameof(GetProductByID), new { id = product.ID }, product);
         }   
@@ -50,7 +81,27 @@ namespace controllers
             var existingProduct = _productServices.GetProductByID(id);
             if (existingProduct == null)
             {
-                return NotFound();
+                return NotFound("Product doesn't exist.");
+            }
+
+                      if(product.Name == null || product.Name == "")
+            {
+                return BadRequest("Product Name is required");
+            }
+
+            if(product.Description == null || product.Description == "")
+            {
+                return BadRequest("Product Description is required");
+            }
+
+            if(product.Price <= 0)
+            {
+                return BadRequest("Product Price must be greater than zero");
+            }
+
+            if(product.StockQuantity < 0)
+            {
+                return BadRequest("Product Stock Quantity cannot be negative");
             }
 
             product.ID = id; 
@@ -65,7 +116,7 @@ namespace controllers
             var existingProduct = _productServices.GetProductByID(id);
             if (existingProduct == null)
             {
-                return NotFound();
+                return NotFound("Product doesn't exist.");
             }
 
             _productServices.DeleteProduct(id);

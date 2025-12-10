@@ -30,7 +30,7 @@ namespace controllers
             var orderDetail = _orderDetailServices.GetOrderDetailByID(id);
             if (orderDetail == null)
             {
-                return NotFound();
+                return NotFound("Order Detail doesn't exist.");
             }
             return Ok(orderDetail);
         }
@@ -38,6 +38,28 @@ namespace controllers
         [HttpPost]
         public ActionResult AddOrderDetail([FromBody] OrderDetail orderDetail)
         {
+
+            if(orderDetail.ID <= 0)
+            {
+                return BadRequest("Order Detail ID cannot be below 0.");
+            }
+
+               if(orderDetail.OrderID <= 0)
+            {
+                return BadRequest("Order ID cannot be below 0.");
+            }
+
+            if(orderDetail.ProductID <= 0)
+            {
+                return BadRequest("Product ID cannot be below 0.");
+            }
+
+            if (orderDetail.Quantity <= 0)
+            {
+                return BadRequest("Quantity must be a positive value.");
+            }
+            
+
             _orderDetailServices.AddOrderDetail(orderDetail);
             return CreatedAtAction(nameof(GetOrderDetailByID), new { id = orderDetail.ID }, orderDetail);
         }   
@@ -48,7 +70,27 @@ namespace controllers
             var existingOrderDetail = _orderDetailServices.GetOrderDetailByID(id);
             if (existingOrderDetail == null)
             {
-                return NotFound();
+                return NotFound("Order Detail doesn't exist");
+            }
+
+               if(orderDetail.ID <= 0)
+            {
+                return BadRequest("Order Detail ID cannot be below 0.");
+            }
+
+               if(orderDetail.OrderID <= 0)
+            {
+                return BadRequest("Order ID cannot be below 0.");
+            }
+
+            if(orderDetail.ProductID <= 0)
+            {
+                return BadRequest("Product ID cannot be below 0.");
+            }
+
+            if (orderDetail.Quantity <= 0)
+            {
+                return BadRequest("Quantity must be a positive value.");
             }
 
             orderDetail.ID = id; 
@@ -62,7 +104,7 @@ namespace controllers
             var existingOrderDetail = _orderDetailServices.GetOrderDetailByID(id);
             if (existingOrderDetail == null)
             {
-                return NotFound();
+                return NotFound("Order Detail doesn't exist.");
             }
 
             _orderDetailServices.DeleteOrderDetail(id);
