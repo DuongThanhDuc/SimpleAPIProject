@@ -10,17 +10,15 @@ using System.Threading.Tasks;
 using utilities;
 using services;
 using Microsoft.OpenApi;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(options =>
 {
-    // ...
-
     options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.Http,
@@ -28,13 +26,11 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         Description = "JWT Authorization header using the Bearer scheme."
     });
-
     options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
         [new OpenApiSecuritySchemeReference("bearer", document)] = []
     });
 });
-
 
 builder.Services.AddHttpLogging(options =>
     {

@@ -27,7 +27,7 @@ namespace services
         public void UpdateProduct(Product product)
         {
             var products = LoadProducts();
-            var existing = LoadProducts().FirstOrDefault(p => p.ID == product.ID);
+            var existing = products.FirstOrDefault(p => p.ID == product.ID);
 
             if (existing == null)
             {

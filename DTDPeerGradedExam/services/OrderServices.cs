@@ -27,7 +27,7 @@ namespace services
         public void UpdateOrder (Order order)
         {
             var orders = LoadOrders();
-            var existing = LoadOrders().FirstOrDefault(o => o.ID == order.ID);
+            var existing = orders.FirstOrDefault(o => o.ID == order.ID);
             
             if (existing == null)
             {

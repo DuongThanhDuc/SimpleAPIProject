@@ -27,7 +27,7 @@ namespace services
         public void UpdateUsers(User user)
         {
             var users = LoadUsers();
-            var existing = LoadUsers().FirstOrDefault(u => u.ID == user.ID);
+            var existing = users.FirstOrDefault(u => u.ID == user.ID);
 
             if (existing == null)
             {

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using services;
 using models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class OrderDetailControllers : ControllerBase

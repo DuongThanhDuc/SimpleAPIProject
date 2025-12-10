@@ -27,7 +27,7 @@ namespace services
         public void UpdateOrderDetail(OrderDetail orderDetail)
         {
             var orderDetails = LoadOrderDetails();
-            var existing = LoadOrderDetails().FirstOrDefault(od => od.ID == orderDetail.ID);
+            var existing = orderDetails.FirstOrDefault(od => od.ID == orderDetail.ID);
 
             if (existing == null)
             {

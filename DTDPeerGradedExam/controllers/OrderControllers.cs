@@ -30,7 +30,7 @@ namespace controllers
             var order = _orderServices.GetOrderByID(id);
             if (order == null)
             {
-                return NotFound();
+                return NotFound("Order doesn't exist.");
             }
             return Ok(order);
         }
@@ -38,6 +38,33 @@ namespace controllers
         [HttpPost]
         public ActionResult AddOrder([FromBody] Order order)
         {
+            if (order == null)
+            {
+                return BadRequest("Order cannot be null.");
+            }
+
+            if(order.ID <= 0)
+            {
+                return BadRequest("Order ID cannot be below 0.");
+            }
+
+               if(order.UserID <= 0)
+            {
+                return BadRequest("User ID cannot be below 0.");
+            }
+
+            if (order.TotalAmount < 0)
+            {
+                return BadRequest("TotalAmount must be a positive value.");
+            }
+
+            var allowedStatus = new[] { "Processing", "Completed", "Cancelled" };
+            if (!allowedStatus.Contains(order.Status))
+            {
+                return BadRequest("Invalid status value. Status must either be Processing, Completed, or Cancelled.");
+            }
+
+
             _orderServices.AddOrder(order);
             return CreatedAtAction(nameof(GetOrderByID), new { id = order.ID }, order);
         }
@@ -48,13 +75,30 @@ namespace controllers
             var existingOrder = _orderServices.GetOrderByID(id);
             if (existingOrder == null)
             {
-                return NotFound();
+                return NotFound("Order doesn't exist");
             }
 
-            order.ID = id; 
+            if(order.UserID <= 0)
+            {
+                return BadRequest("User ID cannot be below or 0.");
+            }
+
+            if (order.TotalAmount < 0)
+            {
+                return BadRequest("TotalAmount must be a positive value.");
+            }
+
+            var allowedStatus = new[] { "Processing", "Completed", "Cancelled" };
+            if (!allowedStatus.Contains(order.Status))
+            {
+                return BadRequest("Invalid status value. Status must either be Processing, Completed, or Cancelled.");
+            }
+
+            order.ID = id;
             _orderServices.UpdateOrder(order);
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public ActionResult DeleteOrder(int id)
@@ -62,7 +106,7 @@ namespace controllers
             var existingOrder = _orderServices.GetOrderByID(id);
             if (existingOrder == null)
             {
-                return NotFound();
+                return NotFound("Order doesn't exist");
             }
 
             _orderServices.DeleteOrder(id);
@@ -70,4 +114,3 @@ namespace controllers
         }
     }
 }
-  

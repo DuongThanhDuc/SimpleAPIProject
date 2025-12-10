@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using services;
 using models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace controllers
 {
@@ -22,6 +23,7 @@ namespace controllers
             return Ok(users);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<User> GetUserByID(int id)
         {
@@ -33,6 +35,7 @@ namespace controllers
             return Ok(user);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult AddUser([FromBody] User user)
         {
@@ -40,6 +43,7 @@ namespace controllers
             return CreatedAtAction(nameof(GetUserByID), new { id = user.ID }, user);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public ActionResult UpdateUser(int id, [FromBody] User user)
         {
@@ -54,6 +58,7 @@ namespace controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Administrator,Staff")]
         [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
